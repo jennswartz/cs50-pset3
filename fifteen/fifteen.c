@@ -14,7 +14,7 @@
  * Note that usleep is obsolete, but it offers more granularity than
  * sleep and is simpler to use than nanosleep; `man usleep` for more.
  */
- 
+
 #define _XOPEN_SOURCE 500
 
 #include <cs50.h>
@@ -111,7 +111,7 @@ int main(int argc, string argv[])
         // prompt for move
         printf("Tile to move: ");
         int tile = GetInt();
-        
+
         // quit if user inputs 0 (for testing)
         if (tile == 0)
         {
@@ -132,7 +132,7 @@ int main(int argc, string argv[])
         // sleep thread for animation's sake
         usleep(500000);
     }
-    
+
     // close log
     fclose(file);
 
@@ -161,7 +161,7 @@ void greet(void)
 
 /**
  * Initializes the game's board with tiles numbered 1 through d*d - 1
- * (i.e., fills 2D array with values but does not actually print them).  
+ * (i.e., fills 2D array with values but does not actually print them).
  */
 
 
@@ -170,11 +170,11 @@ void init(void)
 {
     // Initialize variable fill_grid that stores value to begin populating the grid (one less than d * d)
     int fill_grid = (d * d) - 1;
-    
+
     // Set values of x and y, which will be the x and y axis coordinates used when making moves
     x = d - 1;
     y = d - 1;
-    
+
     // Create outer loop and inner loop to interate through and create 2D array [row][column]; use numbers in fill_grid to populate the array
     for(int row = 0; row < d; row++)
     {
@@ -209,7 +209,7 @@ void draw(void)
             {
                 printf(" %2d ", board[row][column]);
             }
-            
+
             // If the value is zero, print _ placeholder.
             else if(board[row][column] == EMPTY_TILE)
             {
@@ -223,12 +223,12 @@ void draw(void)
 
 /**
  * If tile borders empty space, moves tile and returns true, else
- * returns false. 
+ * returns false.
  */
 
 bool move(int tile)
 {
-    
+
     // Create two loops to iterate over board[row][column]
     for(int row = 0; row < d; row++)
     {
@@ -237,11 +237,11 @@ bool move(int tile)
             // Find the tile that equals the board[row][column]
             if (board[row][column] == tile)
             {
-                
+
                 // Look to see if the empty space is down, up, left or right
                 if (((row == x) && (column == y - 1 || column == y + 1)) || ((column == y) && (row == x - 1 || row == x + 1)))
                 {
-                    
+
                     // Swap tile and the zero; reset values of x and y;
                     board[x][y] = tile;
                     board[row][column] = EMPTY_TILE;
@@ -256,14 +256,14 @@ bool move(int tile)
 }
 
 /**
- * Returns true if game is won (i.e., board is in winning configuration), 
+ * Returns true if game is won (i.e., board is in winning configuration),
  * else false.
  */
 bool won(void)
 {
     // Set variable for filling grid starting at one and increasing each loop
     int fill_grid = 1;
-    
+
     // Create two loops for column and row
     for(int row = 0; row < d; row++)
     {
@@ -273,8 +273,8 @@ bool won(void)
             if(board[row][column] == fill_grid)
             {
                 fill_grid++;
-                
-                if(fill_grid == d * d && board[d-1][d-1] == 0)
+
+                if(fill_grid == d * d && board[d - 1][d - 1] == 0)
                 {
                     return true;
                 }
